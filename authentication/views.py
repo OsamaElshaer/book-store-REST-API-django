@@ -1,5 +1,5 @@
 from authentication.serializers import Userserializer
-from core.models import *
+from shop.models import *
 from rest_framework import generics
 from rest_framework.response import Response
 

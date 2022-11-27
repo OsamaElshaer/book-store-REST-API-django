@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from core.models import *
+from shop.models import *
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 
