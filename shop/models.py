@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.text import slugify
 
 
 class Category(models.Model):
@@ -25,10 +26,19 @@ class Book(models.Model):
     marcket_price = models.PositiveIntegerField()
     selling_price = models.PositiveIntegerField()
     description = models.TextField()
+    created=models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    slug = models.SlugField(max_length=200,null=True,blank=True)
 
     class Meta:
+        ordering = ['created']
         verbose_name = 'Book'
         verbose_name_plural = 'Books'
+
+    def save(self,*args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Book, self).save(*args, **kwargs)
+        
 
     def __repr__(self):
         return self.title
@@ -42,6 +52,8 @@ class Favorite(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.Case)
     isFavorit = models.BooleanField(default=False)
+    created=models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Favorite'
@@ -60,6 +72,8 @@ class Cart(models.Model):
     total = models.PositiveIntegerField()
     isComplit = models.BooleanField(default=False)
     date = models.DateField(auto_now_add=True)
+    created=models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"User={self.user.username}|ISComplit={self.isComplit}"
@@ -71,6 +85,8 @@ class CartBook(models.Model):
     price = models.PositiveIntegerField()
     quantity = models.PositiveIntegerField()
     subtotal = models.PositiveIntegerField()
+    created=models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"Cart=={self.cart.id}<==>Cartbook:{self.id}==Qualtity=={self.quantity}"
@@ -81,3 +97,12 @@ class Order(models.Model):
     email = models.CharField(max_length=150)
     phone = models.CharField(max_length=13)
     address = models.CharField(max_length=200)
+    created=models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    class Meta:
+        ordering = ['updated']
+
+
+    def __str__(self):
+        return self.cart
+        
