@@ -53,7 +53,7 @@ To run this project, you will need to add the following environment variables to
 
 ### API Docs
 
-    http://127.0.0.1:8000/shop
+    http://127.0.0.1:8000
 
 <!-- LICENSE -->
 
