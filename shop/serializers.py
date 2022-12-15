@@ -11,7 +11,7 @@ class BookSerializer(serializers.ModelSerializer):
 
 class CartSerializers(serializers.ModelSerializer):
     class Meta:
-        model = Cart
+        model = Payment
         fields = "__all__"
 
 

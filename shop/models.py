@@ -59,7 +59,7 @@ class Favorite(models.Model):
 
 
 
-class Cart(models.Model):
+class Payment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     total = models.PositiveIntegerField()
     isComplete = models.BooleanField(default=False)
@@ -71,8 +71,9 @@ class Cart(models.Model):
         return f"User={self.user.username}|ISComplete={self.isComplete}"
 
 
+
 class CartBook(models.Model):
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Payment, on_delete=models.CASCADE)
     book = models.ManyToManyField(Book)
     price = models.PositiveIntegerField()
     quantity = models.PositiveIntegerField()
@@ -85,7 +86,7 @@ class CartBook(models.Model):
 
 
 class Order(models.Model):
-    cart = models.OneToOneField(Cart, on_delete=models.CASCADE)
+    cart = models.OneToOneField(Payment, on_delete=models.CASCADE)
     email = models.CharField(max_length=150)
     phone = models.CharField(max_length=13)
     address = models.CharField(max_length=200)

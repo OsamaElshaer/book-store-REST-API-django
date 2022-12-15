@@ -71,7 +71,7 @@ class CartView(APIView):
     def get(self, request):
         user = request.user
         try:
-            cart_obj = Cart.objects.filter(user=user).filter(isComplit=False)
+            cart_obj = Payment.objects.filter(user=user).filter(isComplit=False)
             data = []
             cart_serializer = CartSerializers(cart_obj, many=True)
             for cart in cart_serializer.data:
@@ -108,7 +108,7 @@ class AddToCart(APIView):
         book_id = request.data['id']
         book_obj = Book.objects.get(id=book_id)
         # print(book_obj, "book_obj")
-        cart_cart = Cart.objects.filter(
+        cart_cart = Payment.objects.filter(
             user=request.user).filter(isComplit=False).first()
         cart_book_obj = CartBook.objects.filter(
             book__id=book_id).first()
@@ -139,9 +139,9 @@ class AddToCart(APIView):
                     cart_cart.total += book_obj.selling_price
                     cart_cart.save()
             else:
-                Cart.objects.create(user=request.user,
+                Payment.objects.create(user=request.user,
                                     total=0, isComplit=False)
-                new_cart = Cart.objects.filter(
+                new_cart = Payment.objects.filter(
                     user=request.user).filter(isComplit=False).first()
                 cart_book_new = CartBook.objects.create(
                     cart=new_cart,
@@ -168,7 +168,7 @@ class DelateCarBook(APIView):
         cart_book_id = request.data['id']
         try:
             cart_book_obj = CartBook.objects.get(id=cart_book_id)
-            cart_cart = Cart.objects.filter(
+            cart_cart = Payment.objects.filter(
                 user=request.user).filter(isComplit=False).first()
             cart_cart.total -= cart_book_obj.subtotal
             cart_book_obj.delete()
@@ -186,7 +186,7 @@ class DelateCart(APIView):
     def post(self, request):
         cart_id = request.data['id']
         try:
-            cart_obj = Cart.objects.get(id=cart_id)
+            cart_obj = Payment.objects.get(id=cart_id)
             cart_obj.delete()
             response_msg = {'error': False}
         except:
@@ -205,7 +205,7 @@ class OrderCreate(APIView):
             address = data['address']
             email = data['email']
             phone = data['phone']
-            cart_obj = Cart.objects.get(id=cart_id)
+            cart_obj = Payment.objects.get(id=cart_id)
             cart_obj.isComplit = True
             cart_obj.save()
             Order.objects.create(
