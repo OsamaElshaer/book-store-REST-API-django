@@ -25,7 +25,6 @@ To run this project, you will need to add the following environment variables to
 
 `SECRET_KEY`
 `DEBUG`
-`STRIPE_SECRET_KEY`
 
 ### Installation
 
@@ -36,7 +35,7 @@ To run this project, you will need to add the following environment variables to
 2. vertual enviroment
     ```sh
      python -m venv env
-     env/\scripts\activate
+     env\scripts\activate
     ```
 3. install requirements
     ```sh
@@ -54,7 +53,7 @@ To run this project, you will need to add the following environment variables to
 
 ### API Docs
 
-    http://127.0.0.1:8000/apiDocs
+    http://127.0.0.1:8000/shop
 
 <!-- LICENSE -->
 

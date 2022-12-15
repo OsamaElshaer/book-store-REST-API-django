@@ -7,7 +7,6 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = "__all__" 
-        depth = 1
 
 
 class CartSerializers(serializers.ModelSerializer):
@@ -20,11 +19,9 @@ class CartBookSerializers(serializers.ModelSerializer):
     class Meta:
         model = CartBook
         fields = "__all__"
-        depth = 1
 
 
 class OrdersSerializers(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = "__all__"
-        depth = 1

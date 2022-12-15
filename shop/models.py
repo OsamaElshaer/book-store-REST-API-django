@@ -10,9 +10,6 @@ class Category(models.Model):
         verbose_name = 'Category'
         verbose_name_plural = 'Categorys'
 
-    def _repr__(self):
-        return self.title
-
     def __str__(self):
         return self.title
 
@@ -40,9 +37,6 @@ class Book(models.Model):
         super(Book, self).save(*args, **kwargs)
         
 
-    def __repr__(self):
-        return self.title
-
     def __str__(self):
         return self.title
         
@@ -51,16 +45,14 @@ class Book(models.Model):
 class Favorite(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.Case)
-    isFavorit = models.BooleanField(default=False)
+    isFavorite = models.BooleanField(default=False)
     created=models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
+        ordering = ['book']
         verbose_name = 'Favorite'
         verbose_name_plural = 'Favorites'
-
-    def __repr__(self):
-        return f"BookID ={self.book.id}user={self.user.username}|ISFavorite={self.isFavorit}"
 
     def __str__(self):
         return f"BookID ={self.book.id}user={self.user.username}|ISFavorite={self.isFavorit}"
@@ -70,13 +62,13 @@ class Favorite(models.Model):
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     total = models.PositiveIntegerField()
-    isComplit = models.BooleanField(default=False)
+    isComplete = models.BooleanField(default=False)
     date = models.DateField(auto_now_add=True)
     created=models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"User={self.user.username}|ISComplit={self.isComplit}"
+        return f"User={self.user.username}|ISComplete={self.isComplete}"
 
 
 class CartBook(models.Model):
@@ -104,5 +96,5 @@ class Order(models.Model):
 
 
     def __str__(self):
-        return self.cart
+        return self.cart.user
         

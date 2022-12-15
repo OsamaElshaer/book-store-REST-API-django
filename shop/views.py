@@ -1,15 +1,14 @@
 from shop.serializers import *
 from shop.models import *
 from rest_framework.views import APIView
-from rest_framework import generics, filters, status
+from rest_framework import generics, filters
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
+# DRF Django REST framework
 
 class BookView(APIView):
-    search_fields = ['title']
-    filter_backends = (filters.SearchFilter,)
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticated]
@@ -31,8 +30,8 @@ class BookView(APIView):
 
 
 class BookFilter(generics.ListCreateAPIView):
- #   permission_classes = [IsAuthenticated]
-  #  authentication_classes = [TokenAuthentication,]    
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication,]    
     search_fields = ['title']
     filter_backends = (filters.SearchFilter,)
     queryset = Book.objects.all()
@@ -45,10 +44,8 @@ class FavoriteView(APIView):
 
     def post(self, request):
         data = request.data["id"]
-        # print(data)
         try:
             book_obj = Book.objects.get(id=data)
-            # print(data)
             user = request.user
             single_favorite_book = Favorite.objects.filter(
                 user=user).filter(book=book_obj).first()
@@ -159,7 +156,7 @@ class AddToCart(APIView):
                 'error': False, 'message': "book add to card successfully", "bookid": book_id}
         except:
             response_mesage = {'error': True,
-                               'message': "book Not add!Somthing is Wromg"}
+                            'message': "book Not add!Somthing is Wromg"}
         return Response(response_mesage)
 
 
