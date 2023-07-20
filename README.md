@@ -48,7 +48,7 @@ To run this project, you will need to add the following environment variables to
     ```
 5. run server
     ```sh
-     python manage.py sunserver
+     python manage.py runserver
     ```
 
 ### API Docs
